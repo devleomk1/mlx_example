@@ -1,2 +1,2 @@
 # mlx_example
-mlx 예제
+mlx mms 기반 예제
