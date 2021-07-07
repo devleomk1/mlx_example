@@ -6,12 +6,12 @@
 /*   By: jisokang <jisokang@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 00:33:16 by jisokang          #+#    #+#             */
-/*   Updated: 2021/07/04 21:12:52 by jisokang         ###   ########.fr       */
+/*   Updated: 2021/07/07 23:17:55 by jisokang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "../../minilibx_mms_20210621/mlx.h"
+#include "../mlx_mms/mlx.h"
 
 typedef struct	s_img
 {

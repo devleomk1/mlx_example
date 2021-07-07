@@ -6,11 +6,11 @@
 /*   By: jisokang <jisokang@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 16:47:45 by jisokang          #+#    #+#             */
-/*   Updated: 2021/06/30 23:52:08 by jisokang         ###   ########.fr       */
+/*   Updated: 2021/07/07 23:17:31 by jisokang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../mlx/mlx.h"
+# include "../mlx_mms/mlx.h"
 
 int		main(void)
 {

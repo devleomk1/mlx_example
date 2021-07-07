@@ -6,13 +6,13 @@
 /*   By: jisokang <jisokang@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 23:52:14 by jisokang          #+#    #+#             */
-/*   Updated: 2021/07/02 18:30:55 by jisokang         ###   ########.fr       */
+/*   Updated: 2021/07/07 23:17:39 by jisokang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../mlx/mlx.h"
+#include "../mlx_mms/mlx.h"
 
 #define X_EVENT_KEY_PRESS		2
 #define X_EVENT_KEY_release		3
