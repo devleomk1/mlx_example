@@ -6,7 +6,7 @@
 /*   By: jisokang <jisokang@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 02:17:32 by jisokang          #+#    #+#             */
-/*   Updated: 2021/07/10 15:30:37 by jisokang         ###   ########.fr       */
+/*   Updated: 2021/07/10 23:36:22 by jisokang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+//#include "../mlx_opengl/mlx.h"
 #include "../mlx_mms/mlx.h"
 
 #define X_EVENT_KEY_PRESS		2
@@ -208,12 +209,18 @@ void	img_init(t_game *game)
 {
 	game->img.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->img.data = (int *)mlx_get_data_addr(game->img.img, &game->img.bpp, &game->img.size_l, &game->img.endian);
-	game->txt.img = mlx_png_file_to_image(game->mlx, "info_text.png", &(game->txt.w), &(game->txt.h));
-	game->img.img1 = mlx_png_file_to_image(game->mlx, "tile00.png", &(game->img.w), &(game->img.h));
-	game->img.img2 = mlx_png_file_to_image(game->mlx, "tile01.png", &(game->img.w), &(game->img.h));
-	game->player.img = mlx_png_file_to_image(game->mlx, "player.png", &(game->player.w), &(game->player.h));
-	game->player.img1 = mlx_png_file_to_image(game->mlx, "player01.png", &(game->player.w), &(game->player.h));
-	game->player.img2 = mlx_png_file_to_image(game->mlx, "player02.png", &(game->player.w), &(game->player.h));
+	//game->txt.img = mlx_png_file_to_image(game->mlx, "info_text.png", &(game->txt.w), &(game->txt.h));
+	//game->img.img1 = mlx_png_file_to_image(game->mlx, "tile00.png", &(game->img.w), &(game->img.h));
+	//game->img.img2 = mlx_png_file_to_image(game->mlx, "tile01.png", &(game->img.w), &(game->img.h));
+	//game->player.img = mlx_png_file_to_image(game->mlx, "player.png", &(game->player.w), &(game->player.h));
+	//game->player.img1 = mlx_png_file_to_image(game->mlx, "player01.png", &(game->player.w), &(game->player.h));
+	//game->player.img2 = mlx_png_file_to_image(game->mlx, "player02.png", &(game->player.w), &(game->player.h));
+	game->txt.img = mlx_xpm_file_to_image(game->mlx, "info_text.xpm", &(game->txt.w), &(game->txt.h));
+	game->img.img1 = mlx_xpm_file_to_image(game->mlx, "tile00.xpm", &(game->img.w), &(game->img.h));
+	game->img.img2 = mlx_xpm_file_to_image(game->mlx, "tile01.xpm", &(game->img.w), &(game->img.h));
+	game->player.img = mlx_xpm_file_to_image(game->mlx, "player.xpm", &(game->player.w), &(game->player.h));
+	game->player.img1 = mlx_xpm_file_to_image(game->mlx, "player01.xpm", &(game->player.w), &(game->player.h));
+	game->player.img2 = mlx_xpm_file_to_image(game->mlx, "player02.xpm", &(game->player.w), &(game->player.h));
 }
 
 int		main_loop(t_game *game)
