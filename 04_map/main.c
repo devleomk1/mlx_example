@@ -6,7 +6,7 @@
 /*   By: jisokang <jisokang@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 02:17:32 by jisokang          #+#    #+#             */
-/*   Updated: 2021/07/09 14:48:34 by jisokang         ###   ########.fr       */
+/*   Updated: 2021/07/10 15:30:37 by jisokang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct	s_game
 	void	*mlx;
 	void	*win;
 	t_img	img;
+	t_img	txt;
 	t_img	player;
 	int		p_x;
 	int		p_y;
@@ -199,7 +200,7 @@ void	game_init(t_game *game)
 void	window_init(t_game *game)
 {
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "mlx 42");
+	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT + 64, "mlx 42");
 
 }
 
@@ -207,6 +208,7 @@ void	img_init(t_game *game)
 {
 	game->img.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->img.data = (int *)mlx_get_data_addr(game->img.img, &game->img.bpp, &game->img.size_l, &game->img.endian);
+	game->txt.img = mlx_png_file_to_image(game->mlx, "info_text.png", &(game->txt.w), &(game->txt.h));
 	game->img.img1 = mlx_png_file_to_image(game->mlx, "tile00.png", &(game->img.w), &(game->img.h));
 	game->img.img2 = mlx_png_file_to_image(game->mlx, "tile01.png", &(game->img.w), &(game->img.h));
 	game->player.img = mlx_png_file_to_image(game->mlx, "player.png", &(game->player.w), &(game->player.h));
@@ -224,6 +226,7 @@ int		main_loop(t_game *game)
 		mlx_put_image_to_window(game->mlx, game->win, game->player.img2, game->p_x * TILE_SIZE, game->p_y * TILE_SIZE);
 	else
 		mlx_put_image_to_window(game->mlx, game->win, game->player.img, game->p_x * TILE_SIZE, game->p_y * TILE_SIZE);
+	mlx_put_image_to_window(game->mlx, game->win, game->txt.img, 0, HEIGHT);
 	return (0);
 }
 
