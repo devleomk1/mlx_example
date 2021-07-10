@@ -6,7 +6,7 @@
 /*   By: jisokang <jisokang@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 02:17:32 by jisokang          #+#    #+#             */
-/*   Updated: 2021/07/08 04:28:36 by jisokang         ###   ########.fr       */
+/*   Updated: 2021/07/09 14:48:34 by jisokang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@
 #define KEY_D			2
 
 # define TILE_SIZE 64		//왜 32는 깨질까?
-# define ROWS 11
-# define COLS 15
+# define ROWS 10
+# define COLS 10
+//# define ROWS 5
+//# define COLS 5
 # define WIDTH COLS * TILE_SIZE
 # define HEIGHT ROWS * TILE_SIZE
 
@@ -36,6 +38,8 @@
 typedef struct	s_img
 {
 	void	*img;
+	void	*img1;
+	void	*img2;
 	int		*data;
 	int		h;
 	int		w;
@@ -53,6 +57,7 @@ typedef struct	s_game
 	t_img	player;
 	int		p_x;
 	int		p_y;
+	int		flag;
 
 	int		map[ROWS][COLS];
 }				t_game;
@@ -71,7 +76,7 @@ void	draw_line(t_game *game, double x1, double y1, double x2, double y2)
 	deltaY /= step;
 	while (fabs(x2 - x1) > 0.01 || fabs(y2 - y1) > 0.01)
 	{
-		game->img.data[TO_COORD(x1, y1)] = 0xDDDDDD;
+		game->img.data[TO_COORD(x1, y1)] = 0x000000;
 		x1 += deltaX;
 		y1 += deltaY;
 	}
@@ -130,7 +135,10 @@ void	draw_rectangles(t_game *game)
 		while (j < COLS)
 		{
 			if (game->map[i][j] == 1)
-				draw_rectangle(game, j, i);
+				mlx_put_image_to_window(game->mlx, game->win, game->img.img2, j * TILE_SIZE, i * TILE_SIZE);
+				//draw_rectangle(game, j, i);
+			else if (game->map[i][j] == 0)
+				mlx_put_image_to_window(game->mlx, game->win, game->img.img1, j * TILE_SIZE, i * TILE_SIZE);
 			j++;
 		}
 		i++;
@@ -139,16 +147,14 @@ void	draw_rectangles(t_game *game)
 
 void	move_player(t_game *game, int x, int y)
 {
-	int map_x;
-	int map_y;
-
-	map_x = game->p_x * TILE_SIZE;
-	map_y = game->p_y * TILE_SIZE;
 	if (game->map[game->p_y + y][game->p_x + x] != 1)
 	{
 		game->p_x += x;
 		game->p_y += y;
 	}
+	game->flag++;
+	if (game->flag > 2)
+		game->flag = 0;
 	printf("Player(%d,%d)\n", game->p_x, game->p_y);
 	return ;
 }
@@ -168,7 +174,7 @@ int		deal_key(int key_code, t_game *game)
 	return (0);
 }
 
-int 	close(t_game *game)
+int 	close_game(t_game *game)
 {
 		exit(0);
 }
@@ -176,17 +182,16 @@ int 	close(t_game *game)
 void	game_init(t_game *game)
 {
 	int map[ROWS][COLS] = {
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-	{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-	{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+	{1, 0, 0, 1, 1, 0, 0, 1, 0, 1},
+	{1, 1, 0, 0, 0, 0, 1, 1, 0, 1},
+	{1, 1, 0, 0, 0, 0, 1, 1, 0, 1},
+	{1, 0, 0, 0, 0, 1, 1, 1, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
 	memcpy(game->map, map, sizeof(int) * ROWS * COLS);
 }
@@ -195,21 +200,30 @@ void	window_init(t_game *game)
 {
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "mlx 42");
+
 }
 
 void	img_init(t_game *game)
 {
 	game->img.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->img.data = (int *)mlx_get_data_addr(game->img.img, &game->img.bpp, &game->img.size_l, &game->img.endian);
+	game->img.img1 = mlx_png_file_to_image(game->mlx, "tile00.png", &(game->img.w), &(game->img.h));
+	game->img.img2 = mlx_png_file_to_image(game->mlx, "tile01.png", &(game->img.w), &(game->img.h));
 	game->player.img = mlx_png_file_to_image(game->mlx, "player.png", &(game->player.w), &(game->player.h));
+	game->player.img1 = mlx_png_file_to_image(game->mlx, "player01.png", &(game->player.w), &(game->player.h));
+	game->player.img2 = mlx_png_file_to_image(game->mlx, "player02.png", &(game->player.w), &(game->player.h));
 }
 
 int		main_loop(t_game *game)
 {
 	draw_rectangles(game);
 	draw_lines(game);
-	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
-	mlx_put_image_to_window(game->mlx, game->win, game->player.img, game->p_x * TILE_SIZE, game->p_y * TILE_SIZE);
+	if (game->flag == 1)
+		mlx_put_image_to_window(game->mlx, game->win, game->player.img1, game->p_x * TILE_SIZE , game->p_y * TILE_SIZE);
+	else if (game->flag == 2)
+		mlx_put_image_to_window(game->mlx, game->win, game->player.img2, game->p_x * TILE_SIZE, game->p_y * TILE_SIZE);
+	else
+		mlx_put_image_to_window(game->mlx, game->win, game->player.img, game->p_x * TILE_SIZE, game->p_y * TILE_SIZE);
 	return (0);
 }
 
@@ -218,12 +232,13 @@ int		main(void)
 	t_game game;
 	game.p_x = 1;
 	game.p_y = 1;
+	game.flag = 0;
 
 	game_init(&game);
 	window_init(&game);
 	img_init(&game);
 	mlx_hook(game.win, X_EVENT_KEY_PRESS, 0, &deal_key, &game);
-	mlx_hook(game.win, X_EVENT_KEY_EXIT, 0, &close, &game);
+	mlx_hook(game.win, X_EVENT_KEY_EXIT, 0, &close_game, &game);
 	mlx_loop_hook(game.mlx, &main_loop, &game);
 	mlx_loop(game.mlx);
 }
